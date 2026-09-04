@@ -10,6 +10,8 @@ several skins for a few weeks with no issues using OpenVIX and OpenATV.
 The widget is entirely optional at the skin level: skins that don't
 define a `guidebouquetlist` widget see no change in behaviour at all.
 
+<img width="1301" height="115" alt="OnyxTabs" src="https://github.com/user-attachments/assets/176af322-24e4-4aa6-a167-484c606bb679" />
+
 
 ## What to add to the default skin (optional, for skins that want it)
 
@@ -19,6 +21,3 @@ A widget definition inside the `EPGSelectionGrid` screen block, e.g.:
 <widget name="guidebouquetlist" position="X,Y" size="W,H"
 	font="Regular;30" foregroundColor="..." backgroundColor="..."
 	valign="center" halign="left" noWrap="1" transparent="1"/>
-
-
-<img width="1301" height="115" alt="OnyxTabs" src="https://github.com/user-attachments/assets/95955af6-d006-4344-8b30-3694f96b4db6" />
