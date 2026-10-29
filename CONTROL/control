@@ -1,0 +1,9 @@
+Package: enigma2-plugin-extensions-epgbouquettabs
+Version: 004
+Section: extensions
+Priority: optional
+Architecture: all
+Maintainer: local-custom
+Description: EPG Bouquet Tabs
+Source: 
+Homepage: 
