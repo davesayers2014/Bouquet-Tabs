@@ -47,12 +47,26 @@
 from Components.Label import Label
 
 
+def _tabsInTitle():
+	"""True if the active skin asks for the tab strip to be shown in the
+	screen title instead of in a dedicated widget. A skin opts in with
+	<parameter name="EPGBouquetTabsTitle" value="1"/>. Useful for skins
+	whose header Title widget already shows the bouquet name and whose
+	XML can't safely be copied (e.g. generated skins)."""
+	try:
+		import skin
+		return bool(skin.parameters.get("EPGBouquetTabsTitle", 0))
+	except Exception:
+		return False
+
+
 class GuideBouquetList(Label):
 	"""Current bouquet bracketed first, followed by the rest in order."""
 
 	def __init__(self):
 		Label.__init__(self, "")
 		self.tabNames = []
+		self.titleCallback = None  # set to screen.setTitle when the skin opts in
 
 	def setBouquets(self, names, currentIndex):
 		self.tabNames = names
@@ -69,7 +83,10 @@ class GuideBouquetList(Label):
 		parts = []
 		for i, name in enumerate(ordered):
 			parts.append("[ %s ]" % name if i == 0 else name)
-		self.setText("   |   ".join(parts))
+		text = "   |   ".join(parts)
+		self.setText(text)
+		if self.titleCallback:
+			self.titleCallback(text)
 
 
 try:
@@ -88,6 +105,8 @@ try:
 			# falls back to its own stock screen name correctly.
 			self.skinName = ["EPGBouquetTabsGrid"] + self.skinName
 			self["guidebouquetlist"] = GuideBouquetList()
+			if _tabsInTitle():
+				self["guidebouquetlist"].titleCallback = self.setTitle
 			self.onLayoutFinish.append(self._refreshTabs)
 
 		def _refreshTabs(self):
@@ -152,6 +171,8 @@ except ImportError:
 				else:
 					self.skinName = ["EPGBouquetTabsGrid", base_name]
 				self["guidebouquetlist"] = GuideBouquetList()
+				if _tabsInTitle():
+					self["guidebouquetlist"].titleCallback = self.setTitle
 				self.onLayoutFinish.append(self._refreshTabs)
 
 			def _refreshTabs(self):
@@ -216,6 +237,8 @@ except ImportError:
 				if self._isGridType:
 					self.skinName = ["EPGBouquetTabsGrid"] + (self.skinName if isinstance(self.skinName, list) else [self.skinName])
 					self["guidebouquetlist"] = GuideBouquetList()
+					if _tabsInTitle():
+						self["guidebouquetlist"].titleCallback = self.setTitle
 
 					# Use the bouquets list handed to us directly as a
 					# constructor argument, since this image's EPGSelection

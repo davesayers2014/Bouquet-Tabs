@@ -18,10 +18,10 @@ One plugin file covers all of these and detects which one it is running on autom
 
 ## Install
 
-1. Download `ipk/enigma2-plugin-extensions-epgbouquettabs_004_all.ipk` and copy it to your box (for example into `/tmp`).
+1. Download `ipk/enigma2-plugin-extensions-epgbouquettabs_005_all.ipk` and copy it to your box (for example into `/tmp`).
 2. Install it:
    ```
-   opkg install /tmp/enigma2-plugin-extensions-epgbouquettabs_004_all.ipk
+   opkg install /tmp/enigma2-plugin-extensions-epgbouquettabs_005_all.ipk
    ```
    If the same version is already installed, run `opkg remove enigma2-plugin-extensions-epgbouquettabs` first, or add `--force-reinstall`.
 3. Restart the GUI (`init 4 && init 3`) or reboot.
@@ -58,6 +58,22 @@ Notes:
 - Restart the GUI after changing skin files.
 
 The plugin also tries a custom screen name, `EPGBouquetTabsGrid`, before the stock one. This lets you define a dedicated tabs layout without touching the skin's own screen.
+
+### Alternative: show the tabs in the screen title (v005 and later)
+
+Some skins already show the bouquet name in a header title on the Grid EPG screen, and are generated or hard to copy screens from (for example Umbra). For those, skip the widget and add one parameter to the skin's `skin_user` file instead:
+
+```xml
+<skin>
+	<parameters>
+		<parameter name="EPGBouquetTabsTitle" value="1"/>
+	</parameters>
+</skin>
+```
+
+Save it as `/etc/enigma2/skin_user_<skin folder name>.xml` (for Umbra: `/etc/enigma2/skin_user_Umbra.xml`) and restart the GUI. The plugin then sets the screen title to the tab strip (current bouquet in brackets), so the skin's existing title shows it and the bouquet name is not repeated.
+
+Limits: the skin must show the screen title on the Grid EPG, and the strip is cut off if it is wider than the skin's title widget. The skin's own font and colour apply to the whole strip. Skins without a usable title still need the `guidebouquetlist` widget described above.
 
 ## Uninstall
 
